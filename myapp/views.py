@@ -8,10 +8,15 @@ from rest_framework import status
 from .serializers import ProductHyperlinkedSerializer
 from rest_framework.authentication import SessionAuthentication
 from .custom_permissions import MyPermission
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductHyperlinkedSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['name', 'price']
+
     lookup_field = 'id'
     authentication_classes = [SessionAuthentication]
     permission_classes = [MyPermission]
